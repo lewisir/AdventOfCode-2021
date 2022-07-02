@@ -1,4 +1,4 @@
-# Advent of Code Day 1
+# Advent of Code Day 1 - Sonar Sweep
 
 # Given an input file, which is a list of numbers, and a window size, count the number of times the number window is greater than the preceeding window
 

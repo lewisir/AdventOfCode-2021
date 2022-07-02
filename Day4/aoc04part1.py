@@ -1,4 +1,4 @@
-# Advent of Code Day 4 part 1
+# Advent of Code Day 4 part 1 - Giant Squid
 
 def markSheet(number,sheet):
     """This function searches the numbers in the sheet and if the number is found marks it with an 'X'"""

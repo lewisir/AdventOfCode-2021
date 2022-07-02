@@ -1,4 +1,4 @@
-# Advent of Code Day 8
+# Advent of Code Day 8 - Seven Segment Search
 
 import argparse
 
@@ -120,7 +120,8 @@ if __name__ == "__main__":
             displayInputs[-1][-1] = displayInputs[-1][-1].split()
             displayInputs[-1][-2] = displayInputs[-1][-2].split()
     
-    # set a Tuple to to match for unique number of segments, these are the number of segments corresponding to numners 1 (2 segs), 4 (4 segs), 7 (3 segs) and 8 (7 segs)
+    # set a Tuple to to match for unique number of segments
+    # these are the number of segments corresponding to numbers 1 (2 segs), 4 (4 segs), 7 (3 segs) and 8 (7 segs)
     uniqueSegmentDigits = (2,3,4,7)
 
     # Work through the data to count the number of digits that are using a unique number of segments

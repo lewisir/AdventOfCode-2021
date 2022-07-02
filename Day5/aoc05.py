@@ -1,4 +1,4 @@
-# Advent of Code Day 5
+# Advent of Code Day 5 - Hydrothermal Venture
 
 # Vents are provided in the input file as line segments like "3,4 -> 3,9"
 # Need to determine at how many ports there's more than one line segment

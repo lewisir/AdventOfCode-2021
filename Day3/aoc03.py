@@ -1,4 +1,4 @@
-# Advent of Code Day 3
+# Advent of Code Day 3 - Binary Diagnostic
 
 def evaluateBinValue(binaryList, commonFlag):
     # with a list of binary numbers as input, take each bit position in turn and determine the most or least common value as controlled by the commonFlag

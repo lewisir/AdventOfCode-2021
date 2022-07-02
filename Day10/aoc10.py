@@ -1,4 +1,4 @@
-# Advent of Code Day 10
+# Advent of Code Day 10 - Syntax Scoring
 
 import argparse
 import statistics

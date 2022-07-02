@@ -1,4 +1,4 @@
-# Advent of Code Day 9
+# Advent of Code Day 9 - Smoke Basin
 
 import argparse
 
@@ -10,20 +10,22 @@ def readFileData(filename):
             fileData.append(line.rstrip('\n'))
     return fileData
 
-def findStringLowPoints(string):
+def find_string_low_points(string):
     """Funciton to find the low points in a string and return their positions and values"""
-    lowPoints = {}
-    for x in range(len(string)):
-        if x == 0:
-            if string[x] < string[x+1]:
-                lowPoints[x] = string[x]
-        elif x == len(string)-1:
-            if string[x] < string[x-1]:
-                lowPoints[x] = string[x]
+    # A low point is a number in the string that is less than the values adjacent to it
+    # low_points dictionary contains keys of the position of the low points and values with are the values of the low points
+    low_points = {}
+    for index, char in enumerate(string):
+        if index == 0:                     # Case for the first number in the string (there's only one number adjacent to it)
+            if char < string[index+1]:
+                low_points[index] = char
+        elif index == len(string)-1:       # Case for the last number in the string (there's only one number adjacent to it)
+            if char < string[index-1]:
+                low_points[index] = char
         else:
-            if string[x] < string[x-1] and string[x] < string[x+1]:
-                lowPoints[x] = string[x]
-    return lowPoints
+            if char < string[index-1] and char < string[index+1]:
+                low_points[index] = char
+    return low_points
 
 def incrementListValues(inputList,increment):
     inputList = [int(x) for x in inputList]
@@ -75,16 +77,17 @@ if __name__ == "__main__":
     if args.file:
         filename = args.file
     else:
-        filename = "inputTest.txt"
+        filename = "Day9/inputTest.txt"
     
     heightMap = readFileData(filename)
 
     allLowPointValues = []
  
     # Part 1 - find the low points in the height Map, increment each one by "1" and return the sum
+    """
     for s in range(len(heightMap)):
         sLength = len(heightMap)
-        stringLowPoints = findStringLowPoints(heightMap[s])
+        stringLowPoints = find_string_low_points(heightMap[s])
         for pos in stringLowPoints:
             if s == 0:
                 if stringLowPoints[pos] < heightMap[s+1][pos]:
@@ -94,6 +97,20 @@ if __name__ == "__main__":
                     allLowPointValues.append(stringLowPoints[pos])
             else:
                 if stringLowPoints[pos] < heightMap[s-1][pos] and stringLowPoints[pos] < heightMap[s+1][pos]:
+                    allLowPointValues.append(stringLowPoints[pos])
+    """
+    for i, value in enumerate(heightMap):
+        sLength = len(heightMap)
+        stringLowPoints = find_string_low_points(value)
+        for pos in stringLowPoints:
+            if i == 0:
+                if stringLowPoints[pos] < heightMap[i+1][pos]:
+                    allLowPointValues.append(stringLowPoints[pos])
+            elif i == sLength-1:
+                if stringLowPoints[pos] < heightMap[i-1][pos]:
+                    allLowPointValues.append(stringLowPoints[pos])
+            else:
+                if stringLowPoints[pos] < heightMap[i-1][pos] and stringLowPoints[pos] < heightMap[i+1][pos]:
                     allLowPointValues.append(stringLowPoints[pos])
     print(sum(incrementListValues(allLowPointValues,1)))
 

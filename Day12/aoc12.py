@@ -1,9 +1,6 @@
-# Advent of Code Day 12
+# Advent of Code Day 12 - Passage Pathing
 
 import argparse
-from cgitb import small
-from email.headerregistry import ContentTransferEncodingHeader
-from importlib.resources import path
 
 def readFileData(filename):
     """Function to read in data from an input file and return the processed file data"""

@@ -1,4 +1,4 @@
-# Advent of Code Day 2
+# Advent of Code Day 2 - Dive!
 
 # Take a list of instructions (forward, up, down) and total the horizonal position and depth
 

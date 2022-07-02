@@ -1,4 +1,4 @@
-# Advent of Code Day 11
+# Advent of Code Day 11 - Dumbo Octopus
 
 import argparse
 import copy

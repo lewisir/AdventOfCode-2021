@@ -1,4 +1,4 @@
-# Advent of Code Day 7
+# Advent of Code Day 7 - The Treachery of Whales
 
 import statistics
 
