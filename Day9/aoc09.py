@@ -1,4 +1,4 @@
-# Advent of Code Day 9 - Smoke Basin
+"""Advent of Code Day 9 - Smoke Basin"""
 
 import argparse
 import doctest
@@ -56,7 +56,7 @@ def find_string_low_points(string):
 def increment_list_values(input_list,increment):
     """
     Function increments each value in the list by the 'increment' parameter
-    
+
     >>> print(increment_list_values([1,2,3,4],1))
     [2, 3, 4, 5]
     >>> print(increment_list_values([5,0,1,4],2))
@@ -69,9 +69,9 @@ def get_adjacent_coordinates(height_map,coordinate):
     """
     At the given coordinate in the height_map return the adjacent coordinates
     Adjacent coordindates are to the left, right, above and below in the height_map
-    
+
     For example, coordinate [4,2] has adajcent coordinates [4,1], [4,3], [5,2] and [6,2]
-    
+
     At the limits of the height_map then the coordinate may only have 2 or 3 adjacent coorindates
 
     >>> height_map = ["2199943210","3987894921","9856789892","8767896789","9899965678"]
@@ -151,21 +151,21 @@ if __name__ == "__main__":
 
     # Part 1 - find the low points in the height Map, increment each one by "1" and return the sum
     # Work through each line in the height_map, i is the index of the row in the height_map
-    for i, value in enumerate(height_map):
+    for row, row_value in enumerate(height_map):
         height_map_depth = len(height_map)
-        row_low_points = find_string_low_points(value)
-        # For each low point found in the row and find the values in adjacent rows in the height_map
-        # pos is the position of the low point found in the row
-        for pos in row_low_points:
-            if i == 0:                         # Case for the first row in the height_map
-                if row_low_points[pos] < height_map[i+1][pos]:
-                    all_low_points.append(row_low_points[pos])
-            elif i == height_map_depth-1:      # Case for the last row in the height_map
-                if row_low_points[pos] < height_map[i-1][pos]:
-                    all_low_points.append(row_low_points[pos])
+        row_low_points = find_string_low_points(row_value)
+        # For each low point found in the row, find the values in adjacent rows in the height_map
+        # pos is the position of the low point found in the row, while low_value is its value
+        for pos, low_value in row_low_points.items():
+            if row == 0:                         # Case for the first row in the height_map
+                if low_value < height_map[row+1][pos]:
+                    all_low_points.append(low_value)
+            elif row == height_map_depth-1:      # Case for the last row in the height_map
+                if low_value < height_map[row-1][pos]:
+                    all_low_points.append(low_value)
             else:
-                if row_low_points[pos] < height_map[i-1][pos] and row_low_points[pos] < height_map[i+1][pos]:
-                    all_low_points.append(row_low_points[pos])
+                if low_value < height_map[row-1][pos] and low_value < height_map[row+1][pos]:
+                    all_low_points.append(low_value)
     print(f"Part 1 answer {sum(increment_list_values(all_low_points,1))}")
 
 
@@ -187,3 +187,5 @@ if __name__ == "__main__":
 
     answer = list_product(basin_sizes,3)
     print(f"Part 2 answer {answer}")
+
+    # print(list_product.__doc__)
