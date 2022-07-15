@@ -1,10 +1,22 @@
-# Advent of Code Day 10 - Syntax Scoring
+"""Advent of Code Day 10 - Syntax Scoring"""
 
 import argparse
 import statistics
+import doctest
 
 def read_file_data(filename):
-    """Function to read in data from an input file and return the list containing the file data"""
+    """
+    Function to read in data from an input file and return the list containing the file data
+
+    If the file contains the following:
+    [({(<(())[]>[[{[]{<()<>>
+    [(()[<>])]({[<{<<[]>>(
+    {([(<{}[<>[]}>{[]{[(<()>
+    (((({<>}<{<{<>}{[]{[]{}
+
+    The then returned file_data is:
+    ["[({(<(())[]>[[{[]{<()<>>","[(()[<>])]({[<{<<[]>>(","{([(<{}[<>[]}>{[]{[(<()>","(((({<>}<{<{<>}{[]{[]{}"]
+    """
     fileData = []
     with open(filename) as file:
         for line in file:
@@ -12,7 +24,12 @@ def read_file_data(filename):
     return fileData
 
 def score_auto_complete(autocomplete_list):
-    """Function takes a list of opening delimiters and calculates the points that this scores"""
+    """
+    Function takes a list of opening delimiters and calculates the points that this scores
+
+    >>> score_auto_complete(['(','[','{','<'])
+    194
+    """
     delimiter_points_complete = {
         '(': 1,
         '[': 2,
@@ -34,9 +51,11 @@ if __name__ == "__main__":
         filename = args.file
     else:
         filename = "Day10/inputTest.txt"
-    
+
     nav_sub_system = read_file_data(filename)
-    
+
+    doctest.testmod()
+
     # delimiter_dict records the matching closing and opeing delimiter characters
     delimiter_dict = {
         ')': '(',
@@ -51,10 +70,12 @@ if __name__ == "__main__":
     For example {([(<{}[<>[]}>{[]{[(<()>
     For each charcter check if it's an opening character and it to the chunk_delimiters list
     For example {([(<{ are the first continuous opening delimiters in the string above
-    If it's a closing delimiter and it matches the last opening delimiter, remove the last opening delimiter from chunk_delimiters
+    If it's a closing delimiter and it matches the last opening delimiter,
+     remove the last opening delimiter from chunk_delimiters
     For example '}' is found when the chunk_delimiters contains {([(<{, it becomes {([(<
     If it doesn't then increment the error_score
-    For example '}' is found when the chunk_delimiters contains {([(<[, this causes the error to increment by the points for '}'
+    For example '}' is found when the chunk_delimiters contains {([(<[,
+     this causes the error to increment by the points for '}'
     """
     delimiter_points = {
         ')': 3,

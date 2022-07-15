@@ -2,6 +2,7 @@
 
 import argparse
 import doctest
+from typing import List
 
 def read_file_data(filename):
     """
@@ -65,7 +66,7 @@ def increment_list_values(input_list,increment):
     input_list = [int(x)+increment for x in input_list]
     return input_list
 
-def get_adjacent_coordinates(height_map,coordinate):
+def get_adjacent_coordinates(height_map:List[str],coordinate:List[int])->List[List[int]]:
     """
     At the given coordinate in the height_map return the adjacent coordinates
     Adjacent coordindates are to the left, right, above and below in the height_map
@@ -167,7 +168,6 @@ if __name__ == "__main__":
                 if low_value < height_map[row-1][pos] and low_value < height_map[row+1][pos]:
                     all_low_points.append(low_value)
     print(f"Part 1 answer {sum(increment_list_values(all_low_points,1))}")
-
 
     # Part 2 - Finding the three largest basins in the map and multiply them together
     # Keep track of all the coordinates that form basins in all_basin_coordinates
