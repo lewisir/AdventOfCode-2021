@@ -15,7 +15,6 @@ if __name__ == "__main__":
     hrzntlPositions = numbers.split(',')
     hrzntlPositions = [int(x) for x in hrzntlPositions]
     # I'm sure there's a neater way to get the data in from the file !!!
-    
 
     #hrzntlPositions = [16,1,2,0,4,2,7,1,2,14]  # This is the test data that can be substituted in
 
