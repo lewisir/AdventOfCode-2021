@@ -4,6 +4,7 @@ Day 15 - Chiton
 import argparse
 import doctest
 from riskmap import RiskMap
+from arrayExpansion import ArrayExpansion
 
 def read_file_data(filename):
     """
@@ -28,6 +29,13 @@ def read_file_data(filename):
                 file_array[y].append(int(file_data[y][x]))
     return file_array
 
+def print_array(array):
+    """Pretty printing for an array"""
+    TAB = '\t'
+    SPACE = ' '
+    for row in array:
+        print(f"{SPACE.join(map(str,row))}")
+
 def main():
     """The main program"""
     parser = argparse.ArgumentParser()
@@ -41,10 +49,17 @@ def main():
     file_data = read_file_data(filename)
 
     my_risk_map = RiskMap(file_data)
-    print(f"Risk map is {my_risk_map.y_map_size} by {my_risk_map.x_map_size}")
+    # print(f"Risk map is {my_risk_map.y_map_size} by {my_risk_map.x_map_size}")
     START = (0,0)
     END = (my_risk_map.y_map_size-1,my_risk_map.x_map_size-1)
-    print(f"Lowest cost is: {my_risk_map.shortest_path(START,END)}")
+    print(f"Part 1 - Lowest cost is: {my_risk_map.shortest_path(START,END)}")
+
+    new_file_data = ArrayExpansion(file_data)
+    my_new_risk_map = RiskMap(new_file_data.expand_array(5,5))
+    START = (0,0)
+    END = (my_new_risk_map.y_map_size-1,my_new_risk_map.x_map_size-1)
+    print(f"Part 2 - Lowest cost is: {my_new_risk_map.shortest_path(START,END)}")
+    # print_array(part_two_risk_map.expand_array(2,2,1))
 
 if __name__ == "__main__":
     doctest.testmod()
