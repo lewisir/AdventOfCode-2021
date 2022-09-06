@@ -19,8 +19,8 @@ A value of 1 means the next 11 bits represent the number of sub-packets containe
 """
 import argparse
 import doctest
-import packetOLD
-import packetNew
+import Day16.packetOld01 as packetOld01
+import Day16.packetOld02 as packetOld02
 
 def read_file_data(filename):
     """Read in the file input"""
@@ -93,7 +93,7 @@ def main():
     for hex_char in test_string:
         binary_string += convert_hex_to_binary(hex_char)
     #print(f"Starting string is {binary_string}")
-    new_packet = packetNew.Packet(binary_string)
+    new_packet = packetOld02.Packet(binary_string)
     print(f"New Part 1 version sum: TBD")
 
 
