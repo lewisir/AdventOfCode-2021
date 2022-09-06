@@ -19,7 +19,8 @@ A value of 1 means the next 11 bits represent the number of sub-packets containe
 """
 import argparse
 import doctest
-import packets
+import packetOLD
+import packetNew
 
 def read_file_data(filename):
     """Read in the file input"""
@@ -28,6 +29,41 @@ def read_file_data(filename):
         for line in file:
             file_data.append(line.rstrip('\n'))
     return file_data
+
+def convert_hex_to_binary(hex_char):
+    """given a hex charcter, return the four binary bits as a string"""
+    if hex_char == "0":
+        return "0000"
+    if hex_char == "1":
+        return "0001"
+    if hex_char == "2":
+        return "0010"
+    if hex_char == "3":
+        return "0011"
+    if hex_char == "4":
+        return "0100"
+    if hex_char == "5":
+        return "0101"
+    if hex_char == "6":
+        return "0110"
+    if hex_char == "7":
+        return "0111"
+    if hex_char == "8":
+        return "1000"
+    if hex_char == "9":
+        return "1001"
+    if hex_char == "A":
+        return "1010"
+    if hex_char == "B":
+        return "1011"
+    if hex_char == "C":
+        return "1100"
+    if hex_char == "D":
+        return "1101"
+    if hex_char == "E":
+        return "1110"
+    if hex_char == "F":
+        return "1111"
 
 def main():
     """The main program"""
@@ -45,12 +81,21 @@ def main():
         filename = "Day16/inputDay16.txt"
 
     test_string = read_file_data(filename)[0]
+    test_string = STRING1
 
-    my_packets = packets.HexStream(test_string)
-    version_sum = 0
-    for packet in my_packets.packet_list:
-        version_sum += packet.pkt_version
-    print(f"Part 1. Packet version Sum is: {version_sum}")
+    #my_packets = packetOLD.HexStream(test_string)
+    #version_sum = 0
+    #for packet in my_packets.packet_list:
+    #    version_sum += packet.pkt_version
+    #print(f"Part 1. Packet version Sum is: {version_sum}")
+
+    binary_string = ''
+    for hex_char in test_string:
+        binary_string += convert_hex_to_binary(hex_char)
+    #print(f"Starting string is {binary_string}")
+    new_packet = packetNew.Packet(binary_string)
+    print(f"New Part 1 version sum: TBD")
+
 
 if __name__ == "__main__":
     doctest.testmod()

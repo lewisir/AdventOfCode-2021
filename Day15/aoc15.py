@@ -5,6 +5,7 @@ import argparse
 import doctest
 from riskmap import RiskMap
 from arrayExpansion import ArrayExpansion
+import time
 
 def read_file_data(filename):
     """
@@ -63,4 +64,6 @@ def main():
 
 if __name__ == "__main__":
     doctest.testmod()
+    start_time = time.time()
     main()
+    print(f"-- Time Taken {time.time() - start_time}")
