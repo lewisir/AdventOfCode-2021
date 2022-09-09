@@ -99,7 +99,7 @@ def main():
     Part II
     Need to consider the range of the x and y velocities that still hit the target area.
     Minimum X velocity is x(x+1)/2 = Target Area min X coordinate (or we can start from 0)
-    Maximum X velocity is x = Target Area max X coordinate       ######         But I had to add one to get this to work?
+    Maximum X velocity is x = Target Area max X coordinate + 1
     Minimum Y velocity is y = Target Area min Y coordinate
     Maximum Y velocity is y + 1 = abs(Target Area min Y coordinate) as given by part I
     """
