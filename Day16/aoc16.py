@@ -30,7 +30,6 @@ TYPE_CODES = {
 }
 """
 
-import doctest
 from cmath import inf
 
 HEX2BIN = {
@@ -63,26 +62,25 @@ class Packet():
     PREFIX_BITS = 1
     MIN_PACKET_LEN = 11
 
-    def __init__(self, packet_binary, position_pointer=0, depth=0):
+    def __init__(self, packet_binary, position_pointer=0):
         self.packet_binary = packet_binary
         self.position_pointer = position_pointer
-        self.packet_depth = depth + 1
         self.remaining_sub_packet_count = 0
         self.remaining_sub_packet_length = 0
         self.length = 0
         self.sub_packets = []
-        self.set_version()
-        self.set_type()
+        self.version = self.extract_value(self.position_pointer, self.VERSION_BITS)
+        self.type = self.extract_value(self.position_pointer, self.TYPE_BITS)
         if self.type != 4:
-            self.set_type_length()
+            self.type_length = self.extract_value(self.position_pointer, self.TYPE_LENGTH_BITS)
             if self.type_length == 0:
-                self.set_sub_packet_length()
+                self.sub_packet_length = self.extract_value(self.position_pointer, self.PACKET_LENGTH_BITS)
                 self.remaining_sub_packet_length = self.sub_packet_length
             else:
-                self.set_sub_packet_count()
+                self.sub_packet_count = self.extract_value(self.position_pointer, self.PACKET_COUNT_BITS)
                 self.remaining_sub_packet_count = self.sub_packet_count
             while self.remaining_sub_packet_count > 0 or self.remaining_sub_packet_length > 0:
-                self.sub_packets.append(Packet(self.packet_binary, self.position_pointer, self.packet_depth))
+                self.sub_packets.append(Packet(self.packet_binary, self.position_pointer))
                 if self.remaining_sub_packet_count > 0:
                     self.remaining_sub_packet_count -= 1
                 elif self.remaining_sub_packet_length > 0:
@@ -93,50 +91,22 @@ class Packet():
         self.evaluate_version_total()
         # self.display_packet()
 
-    def get_value(self, start_position, bit_length):
-        # self.display_binary()
+    def extract_value(self, start_position, bit_length):
+        self.position_pointer += bit_length
+        self.length += bit_length
         return int(self.packet_binary[start_position:start_position + bit_length] ,2)
-
-    def set_version(self):
-        self.version = self.get_value(self.position_pointer, self.VERSION_BITS)
-        self.position_pointer += self.VERSION_BITS
-        self.length += self.VERSION_BITS
-
-    def set_type(self):
-        self.type = self.get_value(self.position_pointer, self.TYPE_BITS)
-        self.position_pointer += self.TYPE_BITS
-        self.length += self.TYPE_BITS
 
     def set_literal_value(self):
         literal_value_list = []
         prefix_bit_value = 1
         while prefix_bit_value == 1:
-            prefix_bit_value = self.get_value(self.position_pointer, self.PREFIX_BITS)
-            self.position_pointer += self.PREFIX_BITS
-            self.length += self.PREFIX_BITS
-            literal_value_list.append(self.get_value(self.position_pointer, self.LITERAL_BITS))
-            self.position_pointer += self.LITERAL_BITS
-            self.length += self.LITERAL_BITS
+            prefix_bit_value = self.extract_value(self.position_pointer, self.PREFIX_BITS)
+            literal_value_list.append(self.extract_value(self.position_pointer, self.LITERAL_BITS))
         literal_value_list.reverse()
         literal_value = 0
         for index, value in enumerate(literal_value_list):
             literal_value += (value * (2 ** (index * 4)))
         self.value = literal_value
-
-    def set_type_length(self):
-        self.type_length = self.get_value(self.position_pointer, self.TYPE_LENGTH_BITS)
-        self.position_pointer += self.TYPE_LENGTH_BITS
-        self.length += self.TYPE_LENGTH_BITS
-
-    def set_sub_packet_length(self):
-        self.sub_packet_length = self.get_value(self.position_pointer, self.PACKET_LENGTH_BITS)
-        self.position_pointer += self.PACKET_LENGTH_BITS
-        self.length += self.PACKET_LENGTH_BITS
-
-    def set_sub_packet_count(self):
-        self.sub_packet_count = self.get_value(self.position_pointer, self.PACKET_COUNT_BITS)
-        self.position_pointer += self.PACKET_COUNT_BITS
-        self.length += self.PACKET_COUNT_BITS
 
     def set_packet_value(self):
         if self.type == 0:
@@ -181,7 +151,7 @@ class Packet():
             self.version_total += packet.version_total
 
     def display_packet(self):
-        print("-"*self.packet_depth + f"Packet version {self.version} and type {self.type} with value {self.value} and length {self.length} and sub-packets {len(self.sub_packets)}")
+        print(f"Packet version {self.version} and type {self.type} with value {self.value} and length {self.length} and sub-packets {len(self.sub_packets)}")
 
     def display_binary(self):
         print(f"{self.packet_binary}\n"+" "*self.position_pointer+"^")
@@ -203,10 +173,10 @@ def read_file_data(filename):
 def main():
     """The main program"""
     FILENAME = "Day16/inputDay16.txt"
-    STRING1 = "8A004A801A8002F478"             # Packet value is 
-    STRING2 = "620080001611562C8802118E34"     # Packet value is 
-    STRING3 = "C0015000016115A2E0802F182340"   # Packet value is 
-    STRING4 = "A0016C880162017C3686B18A3D4780" # Packet value is 
+    STRING1 = "8A004A801A8002F478"             # Packet value is
+    STRING2 = "620080001611562C8802118E34"     # Packet value is
+    STRING3 = "C0015000016115A2E0802F182340"   # Packet value is
+    STRING4 = "A0016C880162017C3686B18A3D4780" # Packet value is
     STRING5 = "C200B40A82"                     # Packet value is  3
     STRING6 = "04005AC33890"                   # Packet value is 54
     STRING7 = "880086C3E88112"                 # Packet value is  7
@@ -218,16 +188,15 @@ def main():
     STRINGD = "D25548"                         # Packet value is 601
 
     packet_hex = read_file_data(FILENAME)[0]
-    # packet_hex = STRING6
+    packet_hex = STRING4
 
     packet_binary = ''
     for char in packet_hex:
         packet_binary += HEX2BIN[char]
-    
+
     my_packet = Packet(packet_binary)
     my_packet.display_version_total()
     my_packet.display_value()
 
 if __name__ == "__main__":
-    doctest.testmod()
     main()
