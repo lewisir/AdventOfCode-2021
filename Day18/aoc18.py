@@ -33,9 +33,6 @@ For example, 10 becomes [5,5], 11 becomes [5,6], 12 becomes [6,6], and so on
 """
 
 
-from cgi import test
-
-
 class NumberPair:
     """A class to model a pair of elements"""
 
