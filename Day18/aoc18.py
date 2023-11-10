@@ -58,7 +58,7 @@ class NumberPair:
         return self.pair_list[1]
 
     def build_number(self, pair_string, pointer=1, depth=1):
-        """ "build the number from a string"""
+        """build the number from a string"""
         self.depth = depth
         index = 0
         while pointer < len(pair_string):
